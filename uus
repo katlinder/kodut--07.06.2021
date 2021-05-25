@@ -1,0 +1,65 @@
+Dependency injection - disaini muster IoC jaoks. Saab luua iseseisvaid objekte väljaspool klassi. 
+Klasse on 3:
+Client klass - sõltub service classist
+Sevice class - annab teenust client classile
+Injector class - paneb service klassi teenused client klassi
+
+Constructor injection
+Kood kirjutada public (customerBusinessLogic) klassi
+Ja public CustomerBusinessLogic(ICustomerDataAccess custData Access)
+Näide koodina:
+public class CustomerBusinessLogic 
+{ ICustomerDataAccess _dataAccess; 
+public 
+ustomerBusinessLogic(ICustomerDataAccess custDataAccess) 
+{ 
+_dataAccess = custDataAccess;
+} 
+public CustomerBusinessLogic() 
+{ 
+_dataAccess = new CustomerDataAccess(); 
+} 
+public string ProcessCustomerData(int id) 
+{ 
+return _dataAccess.GetCustomerName(id); } 
+} 
+public interface ICustomerDataAccess 
+{ 
+string GetCustomerName(int id); 
+} 
+public class CustomerDataAccess: ICustomerDataAccess 
+{ 
+public CustomerDataAccess() 
+{ } 
+public string GetCustomerName(int id) 
+{ //get the customer name from the db in real application return "Dummy Customer Name"; } }
+
+
+
+AddSingelton - sarnane static esemele, ainult 1 juhtum on kogu ablikatsioonis saadaval.
+
+public void ConfigureServices(IServiceCollection services)
+
+{
+   services.AddSingleton<ILog,Logger>()
+}
+
+
+Add Transient - loob uue juhtumi iga korraga. 
+
+public void ConfigureServices(IServiceCollection services)
+
+{
+   services.AddTransient<ILog,Logger>()
+}
+
+
+
+Add Scoped - iga uue päringuga on uus juhtum. 
+
+public void ConfigureServices(IServiceCollection services)
+
+{
+   services.AddScoped<ILog,Logger>()
+}
+
